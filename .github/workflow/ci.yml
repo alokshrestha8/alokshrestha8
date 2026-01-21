@@ -7,15 +7,11 @@ on:
       - "**-built-**"
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 jobs:
   ci:
     name: CI
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+
     env:
       VIP_DEPLOY_SUFFIX: "-built"
     steps:
