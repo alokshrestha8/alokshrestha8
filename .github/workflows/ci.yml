@@ -22,10 +22,11 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
-      # - name: Deploy -built branch to github
-      #   run: |
-      #     export GITHUB_AUTH_TOKEN=$(echo -n "x-access-token:${GITHUB_TOKEN}" | base64 -w 0)
-      #     export GITHUB_TOKEN=""
-      #     ./deploy.sh
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy -built branch to github
+        run: |
+          export GITHUB_AUTH_TOKEN=$(echo -n "x-access-token:${GITHUB_TOKEN}" | base64 -w 0)
+          export GITHUB_TOKEN=""
+          ./deploy.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
