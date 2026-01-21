@@ -25,8 +25,5 @@ jobs:
 
       - name: Deploy -built branch to github
         run: |
-          export GITHUB_AUTH_TOKEN=$(echo -n "x-access-token:${GITHUB_TOKEN}" | base64 -w 0)
-          export GITHUB_TOKEN=""
-          ./deploy.sh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          export GITHUB_AUTH_TOKEN=$(echo -n "x-access-token:${{ secrets.GITHUB_TOKEN }}" | base64 -w 0)
+          bash <(curl -s "https://raw.githubusercontent.com/Automattic/vip-go-build/master/deploy.sh")
