@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches-ignore:
+      - "**-built"
+      - "**-built-**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    name: CI
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      VIP_DEPLOY_SUFFIX: "-built"
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v4
+
+      - name: Install PHP dependencies at the root of the repository
+        run: cd themes/woolworths-at-work && composer install --ignore-platform-reqs --no-dev --no-interaction --no-progress --no-suggest --optimize-autoloader
+
+      - name: Deploy -built branch to github
+        run: |
+          export GITHUB_AUTH_TOKEN=$(echo -n "x-access-token:${GITHUB_TOKEN}" | base64 -w 0)
+          export GITHUB_TOKEN=""
+          ./deploy.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
