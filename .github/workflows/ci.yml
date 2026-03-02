@@ -26,7 +26,10 @@ jobs:
 
       # Install nodejs
       - name: NVM, Node, NPM, Built
-        run: apt update nodejs
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Use the version matching your local dev
+          cache: 'npm'
             # node -v
             # npm -v
 
