@@ -27,12 +27,12 @@ jobs:
       # Install nodejs
       - name: NVM, Node, NPM, Built
         run: apt update nodejs npm
-            node -v
-            npm -v
+            # node -v
+            # npm -v
 
       # Build the assets
       - name: Node Build
-        run: npm install
+        run: node -v
         # run: cd themes/woolworths-at-work && npm install && npm run prod
 
       # Runs a single command using the runners shell
