@@ -34,7 +34,7 @@ jobs:
 
       - name: Install dependencies
         # Use npm ci for faster and more reliable installs in automated environments
-        run: npm run dev
+        run: npm install
 
       - name: Run tests
         run: npm -v

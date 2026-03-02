@@ -1,8 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "dev": "npm run development",
-    "development": "npm run lint && mix --mix-config=build/webpack.mix.js"
+    "dev": "npm run development"
   },
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
