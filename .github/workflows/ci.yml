@@ -28,15 +28,16 @@ jobs:
       - name: NVM, Node, NPM, Built
         uses: actions/setup-node@v4
         with:
-          node-version: '20' # Use the version matching your local dev
+          node-version: '20'
+          # Optionally cache npm dependencies
           cache: 'npm'
-            # node -v
-            # npm -v
 
-      # Build the assets
-      - name: Node Build
-        run: node -v
-        # run: cd themes/woolworths-at-work && npm install && npm run prod
+      - name: Install dependencies
+        # Use npm ci for faster and more reliable installs in automated environments
+        run: npm ci
+
+      - name: Run tests
+        run: npm -v
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
