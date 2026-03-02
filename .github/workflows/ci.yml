@@ -30,15 +30,11 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
-        run: npm install -g npm@latest
+      - name: NPM and Node Version
+        run: npm -v && node -v
 
-      - name: Run tests
-        run: npm -v
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Node Build
+        run: cd themes/woolworths-at-work && npm install && npm run prod
 
       - name: Deploy -built branch to github
         run: |
