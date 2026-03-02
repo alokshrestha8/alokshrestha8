@@ -24,6 +24,17 @@ jobs:
       - name: Install PHP dependencies at the root of the repository
         run: composer install --ignore-platform-reqs --no-dev --no-interaction --no-progress --no-suggest --optimize-autoloader
 
+      # Install nodejs
+      - name: NVM, Node, NPM, Built
+        run: apt update nodejs npm
+            node -v
+            npm -v
+
+      # Build the assets
+      - name: Node Build
+        run: npm install
+        # run: cd themes/woolworths-at-work && npm install && npm run prod
+
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
