@@ -29,6 +29,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache-dependency-path: ./package-lock.json
           # Optionally cache npm dependencies
           cache: 'npm'
 
