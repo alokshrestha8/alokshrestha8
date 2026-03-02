@@ -26,7 +26,7 @@ jobs:
 
       # Install nodejs
       - name: NVM, Node, NPM, Built
-        run: apt update nodejs npm
+        run: apt update nodejs
             # node -v
             # npm -v
 
