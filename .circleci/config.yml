@@ -1,0 +1,74 @@
+version: 2
+jobs:
+  build:
+    docker:
+      # Pick a base image which matches the version of Node you need for
+      # building from https://hub.docker.com/r/cimg/node/tags
+      #
+      # Note: If using a different container, make sure it contains at least
+      # git 2.6.0.
+      - image: composer:2.3.5
+
+    branches:
+      # Don't build from a branch with the `-built` suffix, to
+      # prevent endless loops of deploy scripts.
+      # REQUIRED: If you're amended an existing config, the below are two
+      # of the required lines you must add
+      ignore:
+        - /^.*-built$/
+
+    steps:
+      - checkout
+
+      # Install Composer dependencies
+      - run:
+          name: Composer install
+          command: cd themes/woolworths-at-work && composer install --ignore-platform-reqs --no-dev --no-interaction --no-progress --no-suggest --optimize-autoloader
+
+      # Build the blade templates
+#      - run:
+#          name: Build Templates
+#          command: |
+#            curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+#            chmod +x wp-cli.phar
+#
+#            php wp-cli.phar --info --allow-root
+#            php wp-cli.phar core download --path=/tmp/wordpres-installation/ --skip-content --allow-root --force
+#
+#            cp -R /root/project/ /tmp/wordpres-installation/wp-content/
+#
+#            php wp-cli.phar config create --skip-check --dbname=testing --dbuser=wp --dbpass=securepswd --path=/tmp/wordpres-installation/ --force --allow-root
+#            php wp-cli.phar package install git@github.com:alwaysblank/blade-generate.git --allow-root
+#            php wp-cli.phar blade clear --path=/tmp/wordpres-installation/ --allow-root
+#            php wp-cli.phar blade compile --path=/tmp/wordpres-installation/ --allow-root
+#
+#            cp -R /tmp/wordpress-installation/wp-content/private/view-cache/ /root/project/private/view-cache/
+
+      # Install nodejs
+      - run:
+          name: NVM, Node, NPM, Built
+          command: |
+            apk add --update nodejs npm
+            node -v
+            npm -v
+
+      # Build the assets
+      - run:
+          name: Node Build
+          command: |
+            cd themes/woolworths-at-work && npm install && npm run prod
+
+      # Uncomment this and supply your ssh fingerprint to enable CircleCI to push the built branch to GitHub
+      - add_ssh_keys:
+          fingerprints:
+            - "29:ad:9c:5f:34:82:9d:8a:01:a3:45:76:9d:63:54:b2"
+            - "8a:7b:b8:21:1a:71:fa:41:a1:a2:ec:62:2c:8e:91:02"
+
+      # Run the deploy:
+      # REQUIRED: If you're amended an existing config, the below are two
+      # of the required lines you must add
+      # This will push the result to the {currentbranch}-built branch
+      - deploy:
+          name: Deploy -built branch to github
+          command: bash .circleci/deploy.sh
+
