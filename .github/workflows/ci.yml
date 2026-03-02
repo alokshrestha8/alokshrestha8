@@ -29,9 +29,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache-dependency-path: './package-lock.json'
           # Optionally cache npm dependencies
-          cache: 'npm'
+          # cache: 'npm'
 
       - name: Install dependencies
         # Use npm ci for faster and more reliable installs in automated environments
